@@ -167,34 +167,34 @@ def main():
         bitFile = getOnlyBitFile()
         if bitFile:
             print(f'  + Found a bit file in the current directory: {bitFile}')
-    if args.elf:
+    '''if args.elf:
         elfFile = args.elf
     else:
         print('- No .elf file speciied, checking current directory for one')
         elfFile = getOnlyElfFile()
         if elfFile:
-            print(f'  + Found an elf file in the current directory: {elfFile}')
+            print(f'  + Found an elf file in the current directory: {elfFile}')'''
 
     print('')
     if args.noConfirmation:
         response = 'Y'
     else:
-        print(f'Patch {lvbitxFile} file with {elfFile} via {bitFile}?')
+        print(f'Patch {lvbitxFile} file with {bitFile}?')
         response = input('Proceed? (Y/n)')
 
     if response.upper().strip() != "Y":
         print('Exiting...')
         import sys
         sys.exit(0)
-    outLvbitxFile = lvbitxFile[:-6] + '.' + elfFile + '.lvbitx'
+    outLvbitxFile = lvbitxFile[:-6] + 'patched.lvbitx'
 
     print('')
     print('------------------------------------------')
-    print(f'Patch {lvbitxFile} with {elfFile} embedded in to {bitFile}')
-    print(f'Temporary lvbitxFile {outLvbitxFile}')
+    print(f'Patch {lvbitxFile} with {bitFile}')
+    print(f'Out lvbitxFile {outLvbitxFile}')
 
-    newBitFile = patch(elfFile, bitFile)
-    newBinFile = getBinFileFromBitFile(newBitFile)
+    #newBitFile = patch(elfFile, bitFile)
+    newBinFile = getBinFileFromBitFile(bitFile)
 
     replaceBinstream(lvbitxFile, newBinFile, outLvbitxFile)
 
